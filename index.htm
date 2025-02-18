@@ -124,8 +124,8 @@
 
                 const data = await response.json();
 
-                if (data && data.length > 0) {
-                    // Display raw JSON response
+                if (data) {
+                    // Display raw JSON response directly
                     resultContainer.innerHTML = '<h2>Raw JSON Data:</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
                 } else {
                     resultContainer.innerHTML = 'No results found.';
