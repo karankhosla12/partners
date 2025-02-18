@@ -17,6 +17,10 @@ app.use(express.static('public'));
 app.post('/search', async (req, res) => {
     const { prompt } = req.body;
 
+    if (!prompt) {
+        return res.status(400).json({ error: 'Prompt is required' });
+    }
+
     try {
         const extractResult = await fireCrawlApp.extract([
             "https://help.linkedin.com",
@@ -28,7 +32,7 @@ app.post('/search', async (req, res) => {
             "https://microsoft.com/en-us/dynamics-365/support",
             "https://experienceleague.adobe.com/en/docs/experience-platform/tags/home",
             "https://linkedin.com/legal/privacy-policy",
-           "https://experienceleague.adobe.com/en/docs/marketo/using/getting-started/things-to-know/help-center"
+            "https://experienceleague.adobe.com/en/docs/marketo/using/getting-started/things-to-know/help-center"
         ], {
             prompt: prompt,
             enableWebSearch: true,
