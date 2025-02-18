@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FireCrawl Search</title>
+    <style>
+        #resultBox {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: #f9f9f9;
+        }
+        .step {
+            margin-bottom: 10px;
+        }
+    </style>
+    <script type="module">
+        import FireCrawlApp from 'https://cdn.skypack.dev/@mendable/firecrawl-js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const app = new FireCrawlApp({ apiKey: "fc-4561a3b361134f7698053407d1374d5a" });
+
+            document.getElementById('searchForm').onsubmit = async (event) => {
+                event.preventDefault();
+
+                const prompt = document.getElementById('prompt').value;
+                const resultContainer = document.getElementById('resultBox');
+                resultContainer.innerHTML = 'Searching...';
+
+                try {
+                    const extractResult = await app.extract([
+                        "https://help.linkedin.com",
+                        "https://help.salesforce.com/s",
+                        "https://help.factors.ai/en",
+                        "https://support.google.com/tagmanager/?hl=en",
+                        "https://help.zapier.com/hc/en-us",
+                        "https://help.hubspot.com",
+                        "https://microsoft.com/en-us/dynamics-365/support",
+                        "https://experienceleague.adobe.com/en/docs/experience-platform/tags/home",
+                        "https://linkedin.com/legal/privacy-policy"
+                    ], {
+                        prompt: prompt,
+                        enableWebSearch: true,
+                    });
+
+                    if (extractResult && extractResult.length > 0) {
+                        const result = extractResult[0];
+                        let html = `<h2>${result.title}</h2>`;
+                        html += `<p><strong>Estimated Time:</strong> ${result.estimated_time}</p>`;
+                        html += `<p><strong>Tools Required:</strong> ${result.tools_required.join(', ')}</p>`;
+                        html += '<h3>Steps:</h3><ol>';
+                        result.steps.forEach(step => {
+                            html += `<li>${step.instruction}</li>`;
+                        });
+                        html += '</ol>';
+                        resultContainer.innerHTML = html;
+                    } else {
+                        resultContainer.innerHTML = 'No results found.';
+                    }
+                } catch (error) {
+                    resultContainer.innerHTML = 'Error: ' + error.message;
+                }
+            };
+        });
+    </script>
+</head>
+<body>
+    <h1>FireCrawl Search</h1>
+    <p>Search for information from LinkedIn, Salesforce, Google Tag Manager, Zapier, HubSpot, Microsoft Dynamics, Adobe Experience Platform, and more!</p>
+    <form id="searchForm">
+        <label for="prompt">Enter your query:</label>
+        <input type="text" id="prompt" required />
+        <button type="submit">Search</button>
+    </form>
+    <div id="resultBox"></div>
+</body>
+</html>
