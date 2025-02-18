@@ -7,7 +7,7 @@ const app = express();
 const PORT = 3000;
 
 // FireCrawl setup
-const fireCrawlApp = new FireCrawlApp({ apiKey: "fc-4561a3b361134f7698053407d1374d5a" });
+const fireCrawlApp = new FireCrawlApp({ apiKey: "fc-22e38bcac96f4d27b6fb407519b9cf39" });
 
 app.use(cors());
 app.use(bodyParser.json());
