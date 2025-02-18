@@ -28,7 +28,7 @@ app.post('/search', async (req, res) => {
             "https://microsoft.com/en-us/dynamics-365/support",
             "https://experienceleague.adobe.com/en/docs/experience-platform/tags/home",
             "https://linkedin.com/legal/privacy-policy",
-            "https://experienceleague.adobe.com/en/docs/marketo-engage"
+           "https://experienceleague.adobe.com/en/docs/marketo/using/getting-started/things-to-know/help-center"
         ], {
             prompt: prompt,
             enableWebSearch: true,
