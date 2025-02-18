@@ -9,78 +9,56 @@
             margin-top: 20px;
             background-color: #f9f9f9;
         }
-        .step {
-            margin-bottom: 10px;
-        }
     </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const FireCrawlApp = await import('https://cdn.skypack.dev/@mendable/firecrawl-js').then(m => m.default);
-            const app = new FireCrawlApp({ apiKey: "fc-4561a3b361134f7698053407d1374d5a" });
-
-            document.getElementById('searchForm').onsubmit = async (event) => {
-                event.preventDefault();
-
-                const prompt = document.getElementById('prompt').value;
-                const resultContainer = document.getElementById('resultBox');
-                resultContainer.innerHTML = 'Searching...';
-
-                try {
-                    const extractResult = await app.extract([
-                        "https://help.linkedin.com",
-                        "https://help.salesforce.com/s",
-                        "https://help.factors.ai/en",
-                        "https://support.google.com/tagmanager/?hl=en",
-                        "https://help.zapier.com/hc/en-us",
-                        "https://help.hubspot.com",
-                        "https://microsoft.com/en-us/dynamics-365/support",
-                        "https://experienceleague.adobe.com/en/docs/experience-platform/tags/home",
-                        "https://linkedin.com/legal/privacy-policy"
-                    ], {
-                        prompt: prompt,
-                        enableWebSearch: true,
-                    });
-
-                    if (extractResult || extractResult.success || extractResult.data) {
-                        let html = '<h2>Search Results</h2>';
-
-                        // Check if data contains expected fields
-                        if (extractResult.data.title) {
-                            html += `<h3>${extractResult.data.title}</h3>`;
-                        }
-                        if (extractResult.data.estimated_time) {
-                            html += `<p><strong>Estimated Time:</strong> ${extractResult.data.estimated_time}</p>`;
-                        }
-                        if (extractResult.data.tools_required) {
-                            html += `<p><strong>Tools Required:</strong> ${extractResult.data.tools_required.join(', ')}</p>`;
-                        }
-                        if (extractResult.data.steps && Array.isArray(extractResult.data.steps)) {
-                            html += '<h3>Steps:</h3><ol>';
-                            extractResult.data.steps.forEach(step => {
-                                html += `<li>${step.instruction}</li>`;
-                            });
-                            html += '</ol>';
-                        }
-
-                        resultContainer.innerHTML = html;
-                    } else {
-                        resultContainer.innerHTML = 'No results found.';
-                    }
-                } catch (error) {
-                    resultContainer.innerHTML = 'Error: ' + error.message;
-                }
-            };
-        });
-    </script>
 </head>
 <body>
-    <h1>FireCrawl Search</h1>
-    <p>Search for information from LinkedIn, Salesforce, Google Tag Manager, Zapier, HubSpot, Microsoft Dynamics, Adobe Experience Platform, and more!</p>
+    <h1>Partner Search</h1>
     <form id="searchForm">
         <label for="prompt">Enter your query:</label>
         <input type="text" id="prompt" required />
         <button type="submit">Search</button>
     </form>
     <div id="resultBox"></div>
+
+    <script>
+        document.getElementById('searchForm').onsubmit = async (event) => {
+            event.preventDefault();
+            const prompt = document.getElementById('prompt').value;
+            const resultContainer = document.getElementById('resultBox');
+            resultContainer.innerHTML = 'Searching...';
+
+            try {
+                const response = await fetch('/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ prompt })
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.data) {
+                    let html = '<h2>Search Results</h2>';
+                    if (data.data.title) html += `<h3>${data.data.title}</h3>`;
+                    if (data.data.estimated_time) html += `<p><strong>Estimated Time:</strong> ${data.data.estimated_time}</p>`;
+                    if (data.data.tools_required) html += `<p><strong>Tools Required:</strong> ${data.data.tools_required.join(', ')}</p>`;
+                    if (data.data.steps) {
+                        html += '<h3>Steps:</h3><ol>';
+                        data.data.steps.forEach(step => {
+                            html += `<li>${step.instruction}</li>`;
+                        });
+                        html += '</ol>';
+                    }
+                    resultContainer.innerHTML = html;
+                } else {
+                    resultContainer.innerHTML = 'No results found.';
+                }
+            } catch (error) {
+                resultContainer.innerHTML = 'Error: ' + error.message;
+            }
+        };
+    </script>
 </body>
 </html>
+*/
