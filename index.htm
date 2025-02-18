@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>FireCrawl Search</title>
+    <title>Partner Search</title>
     <style>
         #resultBox {
             border: 1px solid #ddd;
@@ -41,7 +41,7 @@
                         enableWebSearch: true,
                     });
 
-                    if (extractResult && extractResult.success && extractResult.data) {
+                    if (extractResult || extractResult.success || extractResult.data) {
                         let html = '<h2>Search Results</h2>';
 
                         // Check if data contains expected fields
