@@ -13,10 +13,9 @@
             margin-bottom: 10px;
         }
     </style>
-    <script type="module">
-        import FireCrawlApp from 'https://cdn.skypack.dev/@mendable/firecrawl-js';
-
-        document.addEventListener('DOMContentLoaded', () => {
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const FireCrawlApp = await import('https://cdn.skypack.dev/@mendable/firecrawl-js').then(m => m.default);
             const app = new FireCrawlApp({ apiKey: "fc-4561a3b361134f7698053407d1374d5a" });
 
             document.getElementById('searchForm').onsubmit = async (event) => {
@@ -42,16 +41,27 @@
                         enableWebSearch: true,
                     });
 
-                    if (extractResult && extractResult.length > 0) {
-                        const result = extractResult[0];
-                        let html = `<h2>${result.title}</h2>`;
-                        html += `<p><strong>Estimated Time:</strong> ${result.estimated_time}</p>`;
-                        html += `<p><strong>Tools Required:</strong> ${result.tools_required.join(', ')}</p>`;
-                        html += '<h3>Steps:</h3><ol>';
-                        result.steps.forEach(step => {
-                            html += `<li>${step.instruction}</li>`;
-                        });
-                        html += '</ol>';
+                    if (extractResult && extractResult.success && extractResult.data) {
+                        let html = '<h2>Search Results</h2>';
+
+                        // Check if data contains expected fields
+                        if (extractResult.data.title) {
+                            html += `<h3>${extractResult.data.title}</h3>`;
+                        }
+                        if (extractResult.data.estimated_time) {
+                            html += `<p><strong>Estimated Time:</strong> ${extractResult.data.estimated_time}</p>`;
+                        }
+                        if (extractResult.data.tools_required) {
+                            html += `<p><strong>Tools Required:</strong> ${extractResult.data.tools_required.join(', ')}</p>`;
+                        }
+                        if (extractResult.data.steps && Array.isArray(extractResult.data.steps)) {
+                            html += '<h3>Steps:</h3><ol>';
+                            extractResult.data.steps.forEach(step => {
+                                html += `<li>${step.instruction}</li>`;
+                            });
+                            html += '</ol>';
+                        }
+
                         resultContainer.innerHTML = html;
                     } else {
                         resultContainer.innerHTML = 'No results found.';
