@@ -26,7 +26,7 @@ app.post('/linkedin', async (req, res) => {
             "https://help.linkedin.com"
         ], {
             prompt: prompt,
-            enableWebSearch: false,
+            enableWebSearch: true,
         });
 
         res.json(extractResult);
@@ -54,7 +54,7 @@ app.post('/salesforce', async (req, res) => {
             "https://help.linkedin.com"
         ], {
             prompt: prompt,
-            enableWebSearch: false,
+            enableWebSearch: true,
         });
 
         res.json(extractResult);
@@ -82,7 +82,7 @@ app.post('/factors', async (req, res) => {
             "https://help.linkedin.com"
         ], {
             prompt: prompt,
-            enableWebSearch: false,
+            enableWebSearch: true,
         });
 
         res.json(extractResult);
@@ -110,7 +110,7 @@ app.post('/tagmanager', async (req, res) => {
             "https://help.linkedin.com"
         ], {
             prompt: prompt,
-            enableWebSearch: false,
+            enableWebSearch: true,
         });
 
         res.json(extractResult);
@@ -138,7 +138,7 @@ app.post('/zapier', async (req, res) => {
             "https://help.linkedin.com"
         ], {
             prompt: prompt,
-            enableWebSearch: false,
+            enableWebSearch: true,
         });
 
         res.json(extractResult);
@@ -173,7 +173,7 @@ app.post('/search', async (req, res) => {
             "https://linkedin.com/legal/privacy-policy"
         ], {
             prompt: prompt,
-            enableWebSearch: false,
+            enableWebSearch: true,
         });
 
         res.json(extractResult);
@@ -200,7 +200,7 @@ app.post('/hubspot', async (req, res) => {
             "https://help.hubspot.com",
         ], {
             prompt: prompt,
-            enableWebSearch: false,
+            enableWebSearch: true,
         });
 
         res.json(extractResult);
@@ -228,7 +228,7 @@ app.post('/dynamics', async (req, res) => {
             "https://help.linkedin.com"
         ], {
             prompt: prompt,
-            enableWebSearch: false,
+            enableWebSearch: true,
         });
 
         res.json(extractResult);
@@ -256,7 +256,7 @@ app.post('/adobe-platform', async (req, res) => {
             "https://help.linkedin.com"
         ], {
             prompt: prompt,
-            enableWebSearch: false,
+            enableWebSearch: true,
         });
 
         res.json(extractResult);
@@ -284,7 +284,7 @@ app.post('/marketo', async (req, res) => {
             "https://help.linkedin.com"
         ], {
             prompt: prompt,
-            enableWebSearch: false,
+            enableWebSearch: true,
         });
 
         res.json(extractResult);
