@@ -180,11 +180,28 @@
     </style>
 </head>
 <body>
-    <div class="container">
+<div class="container">
         <h1>Partner Search</h1>
         <form id="searchForm">
             <label for="prompt">Enter your query:</label>
             <input type="text" id="prompt" required />
+
+            <!-- Dropdown for endpoint selection -->
+            <label for="endpoint">Select an endpoint:</label>
+            <select id="endpoint" required>
+                <option value="">-- Select an option --</option>
+                <option value="/search">All Sites</option>
+                <option value="/linkedin">LinkedIn</option>
+                <option value="/salesforce">Salesforce</option>
+                <option value="/factors">Factors.ai</option>
+                <option value="/tagmanager">Google Tag Manager</option>
+                <option value="/zapier">Zapier</option>
+                <option value="/hubspot">HubSpot</option>
+                <option value="/dynamics">Dynamics 365</option>
+                <option value="/adobe-platform">Adobe Experience Platform</option>
+                <option value="/marketo">Marketo</option>
+            </select>
+
             <button type="submit">Search</button>
         </form>
 
@@ -195,11 +212,12 @@
         document.getElementById('searchForm').onsubmit = async (event) => {
             event.preventDefault();
             const prompt = document.getElementById('prompt').value;
+            const endpoint = document.getElementById('endpoint').value; // Get selected endpoint
             const resultContainer = document.getElementById('resultBox');
             resultContainer.innerHTML = 'Searching...';
 
             try {
-                const response = await fetch('https://partners-yxnu.onrender.com/search', {
+                const response = await fetch(`https://partners-yxnu.onrender.com${endpoint}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -220,5 +238,5 @@
             }
         };
     </script>
-</body>
+   </body>
 </html>
