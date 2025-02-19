@@ -135,7 +135,8 @@ app.post('/zapier', async (req, res) => {
     try {
         const extractResult = await fireCrawlApp.extract([
             "https://help.zapier.com/hc/en-us",
-            "https://help.linkedin.com"
+            "https://help.linkedin.com",
+            "https://community.zapier.com/"
         ], {
             prompt: prompt,
             enableWebSearch: true,
@@ -170,7 +171,9 @@ app.post('/search', async (req, res) => {
             "https://help.hubspot.com",
             "https://microsoft.com/en-us/dynamics-365/support",
             "https://experienceleague.adobe.com/en/docs/experience-platform/tags/home",
-            "https://linkedin.com/legal/privacy-policy"
+            "https://linkedin.com/legal/privacy-policy",
+            "https://community.hubspot.com/",
+            "https://community.zapier.com/"
         ], {
             prompt: prompt,
             enableWebSearch: true,
@@ -198,6 +201,9 @@ app.post('/hubspot', async (req, res) => {
     try {
         const extractResult = await fireCrawlApp.extract([
             "https://help.hubspot.com",
+            "https://community.hubspot.com/",
+            "https://help.linkedin.com"
+            
         ], {
             prompt: prompt,
             enableWebSearch: true,
