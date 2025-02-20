@@ -68,6 +68,34 @@ app.post('/salesforce', async (req, res) => {
     }
 });
 
+// API endpoint to handle FireCrawl Integrate
+app.post('/integrate', async (req, res) => {
+    const { prompt } = req.body;
+
+    if (!prompt) {
+        return res.status(400).json({ error: 'Prompt is required' });
+    }
+
+    try {
+        const extractResult = await fireCrawlApp.extract([
+            "https://www.integrate.com/",
+            "https://help.linkedin.com"
+        ], {
+            prompt: prompt,
+            enableWebSearch: true,
+        });
+
+        res.json(extractResult);
+    } catch (error) {
+        console.error('Error with FireCrawl Salesforce:', error);
+        res.status(500).json({ 
+            error: 'Internal server error', 
+            message: error.message, 
+            details: error.details || 'No additional details available.' 
+        });
+    }
+});
+
 // API endpoint to handle FireCrawl Factors.ai
 app.post('/factors', async (req, res) => {
     const { prompt } = req.body;
